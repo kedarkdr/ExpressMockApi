@@ -7,7 +7,7 @@ const Agent = require("agentkeepalive");
 
 var utilities = require("../utilities");
 
-const keepAliveAgent = new http.Agent({ keepAlive: true, keepAliveMsecs: 100000, maxSockets: 100 });
+const agent = new http.Agent({ keepAlive: true, keepAliveMsecs: 100000, maxSockets: 100 });
 
 const keepaliveAgent = new Agent({
   maxSockets: 100,
@@ -48,16 +48,14 @@ router.get("/withAgent", async function(req, res, next) {
     port: 80,
     path: "/ping",
     method: "GET",
-    agent: keepAliveAgent
+    //agent: false
+    agent: keepaliveAgent
   };
 
   await new Promise((resolve, reject) => {
     const request = http.request(options, response => {
-      //console.log("STATUS: " + res.statusCode);
-      //console.log("HEADERS: " + JSON.stringify(res.headers));
       response.setEncoding("utf8");
       response.on("data", function(chunk) {
-        //  console.log("BODY: " + chunk);
         resolve(chunk);
       });
     });
@@ -67,9 +65,6 @@ router.get("/withAgent", async function(req, res, next) {
     request.end();
   });
 
-  //console.log("completing request");
-
-  //await axios.get(getrul, axiosoptions);
   res.status(200).json("from order get method with agent");
 });
 

@@ -6,6 +6,7 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
+    "agentkeepalive": "^4.1.0",
     "axios-https-proxy-fix": "^0.17.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
